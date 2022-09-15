@@ -4,6 +4,7 @@ const MIME_TYPES = {
   'image/jpg': 'jpg',
   'image/jpeg': 'jpg',
   'image/png': 'png'
+  'image/web':
 };
 
 const storage = multer.diskStorage({
@@ -13,6 +14,7 @@ const storage = multer.diskStorage({
   filename: (req, file, callback) => {
     const name = file.originalname.split(' ').join('_');
     const extension = MIME_TYPES[file.mimetype];
+    log
     callback(null, name + Date.now() + '.' + extension);
   }
 });
