@@ -4,17 +4,21 @@ const MIME_TYPES = {
   'image/jpg': 'jpg',
   'image/jpeg': 'jpg',
   'image/png': 'png'
-  'image/web':
+  
 };
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, 'images');
+    callback(null, 'image');
   },
   filename: (req, file, callback) => {
     const name = file.originalname.split(' ').join('_');
     const extension = MIME_TYPES[file.mimetype];
-    log
+     if (extension == undefined) {
+            callback(new Error('format invalide'));
+        } else {
+            callback(null, name + Date.now() + '.' + extension);
+        }
     callback(null, name + Date.now() + '.' + extension);
   }
 });

@@ -1,6 +1,11 @@
 const http = require('http');
 const app = require('./app');
 
+// Utilisation de dotenv
+const dotenv = require('dotenv');
+const result = dotenv.config();
+const PORT = process.env.PORT;
+
 const normalizePort = val => {
   const port = parseInt(val, 10);
 
@@ -12,8 +17,8 @@ const normalizePort = val => {
   }
   return false;
 };
-const port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+const port = normalizePort(PORT ||'3000');
+app.set(port, 3000);
 
 const errorHandler = error => {
   if (error.syscall !== 'listen') {
