@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 // Utilisation de dotenv
 const dotenv = require('dotenv');
-const result =dotenv.config();
+dotenv.config();
 const RANDOM_TOKEN_SECRET = process.env.RANDOM_TOKEN_SECRET;
  
 module.exports = (req, res, next) => {
@@ -16,5 +16,6 @@ module.exports = (req, res, next) => {
 	next();
    } catch(error) {
        res.status(401).json({ error });
+       
    }
 };

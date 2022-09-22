@@ -2,8 +2,7 @@ const mongoose = require("mongoose");
 
 // Utilisation de dotenv
 const dotenv =require('dotenv');
-const result = dotenv.config();
-
+dotenv.config();
 const userMongo = process.env.USERMONGO;
 const passewordMongo = process.env.PASSEWORDMONGO;
 const clusterMongo = process.env.CLUSTERMONGO;

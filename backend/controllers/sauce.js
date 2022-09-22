@@ -1,4 +1,5 @@
-const sauce=require(`../models/Sauce`);
+
+const sauce = require(`../models/Sauce`);
 const fs = require('fs');
 
 exports.createSauce = (req, res, next) => {
@@ -19,7 +20,8 @@ exports.createSauce = (req, res, next) => {
     })
     .catch((error) => {
       res.status(400).json({
-        error: error,
+       error: error,
+        
       });
     });
 };
