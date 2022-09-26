@@ -2,22 +2,18 @@ const express = require(`express`);
 const path = require('path');
 // Importation de mongoose
 const mongoose = require('./mongoose_env');
-// mongoose debug
-mongoose.set('debug',true);
-
-
-
-// Import des routes
-const userRoute = require(`./route/user`);
-const sauceRoutes = require('./route/sauce');
-
-
-
-
-
 // Création de l'app Express
 const app = express();
+// mongoose debug
+mongoose.set('debug',true);
+// nportation morgan(logger http)
+const morgan =require('morgan');
 
+// logger les requet et reponse 
+app.use(morgan("dev"));
+// Import des routes
+const userRoute = require(`./route/user`);
+const sauceRoute = require('./route/sauce');
 
 // Headers pour contourner les erreurs de CORS
 app.use((req, res, next) => {
@@ -31,8 +27,10 @@ app.use(express.json());
 
 // Routes de l'API
 app.use('/image', express.static(path.join(__dirname, 'image')));
-app.use('/api/sauces', sauceRoutes);
+app.use('/api/sauces', sauceRoute);
 app.use(`/api/auth`, userRoute);
+
+
 
 
 module.exports = app;

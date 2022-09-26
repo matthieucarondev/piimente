@@ -9,8 +9,7 @@ const clusterMongo = process.env.CLUSTERMONGO;
 
 // Connection à la base de données MongoDB
 mongoose
-  .connect(
-   `mongodb+srv://${userMongo}:${passewordMongo}@${clusterMongo}.hkv4gpe.mongodb.net/?retryWrites=true&w=majority`,
+  .connect(`mongodb+srv://${userMongo}:${passewordMongo}@${clusterMongo}.mongodb.net/?retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true },
   )
   .then(() => console.log("Connexion à MongoDB réussie !"))
