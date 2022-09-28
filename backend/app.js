@@ -1,7 +1,7 @@
 const express = require(`express`);
 const path = require('path');
 // Importation de mongoose
-const mongoose = require('./mongoose_env');
+const mongoose = require('./mongoose-env');
 // Création de l'app Express
 const app = express();
 // mongoose debug
@@ -26,8 +26,8 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 // Routes de l'API
-app.use('/image', express.static(path.join(__dirname, 'image')));
-app.use('/api/sauces', sauceRoute);
+app.use(`/image`, express.static(path.join(__dirname, 'image')));
+app.use(`/api/sauces`, sauceRoute);
 app.use(`/api/auth`, userRoute);
 
 

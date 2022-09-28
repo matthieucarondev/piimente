@@ -4,12 +4,12 @@ const mongoose = require("mongoose");
 const dotenv =require('dotenv');
 dotenv.config();
 const userMongo = process.env.USERMONGO;
-const passewordMongo = process.env.PASSEWORDMONGO;
+const passwordMongo = process.env.PASSWORDMONGO;
 const clusterMongo = process.env.CLUSTERMONGO;
 
 // Connection à la base de données MongoDB
 mongoose
-  .connect(`mongodb+srv://${userMongo}:${passewordMongo}@${clusterMongo}.mongodb.net/?retryWrites=true&w=majority`,
+  .connect(`mongodb+srv://${userMongo}:${passwordMongo}@${clusterMongo}.mongodb.net/?retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true },
   )
   .then(() => console.log("Connexion à MongoDB réussie !"))

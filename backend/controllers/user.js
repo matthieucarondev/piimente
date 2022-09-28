@@ -1,4 +1,3 @@
-
 // importation bcrypt pour hasher passeword
 const bcrypt = require("bcrypt");
 
@@ -8,8 +7,8 @@ const emailValidator = require("email-validator");
 // Import du modèle User
 const User = require(`../models/user`);
 
-const dotenv =require('dotenv');
-const resultat= dotenv.config();
+const dotenv = require("dotenv");
+dotenv.config();
 
 // Créer un compte utilisateur
 exports.signup = (req, res, next) => {
@@ -43,10 +42,13 @@ exports.login = (req, res, next) => {
           }
           res.status(200).json({
             userId: user._id,
-            token: jwt.sign({ userId: user._id },RANDOM_TOKEN_SECRET, {
-              expiresIn: "24h",
-            }),
-          });
+            token: jwt.sign(
+              { userId: user._id },
+              //"RANDOM_TOKEN_SECRET",
+               `${process.env.RANDOM_TOKEN_SECRET}`,
+              {expiresIn: "24h"}
+            )
+          })
         })
         .catch((error) => res.status(500).json({ error }));
     })
