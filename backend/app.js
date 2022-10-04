@@ -25,8 +25,10 @@ app.use((req, res, next) => {
 // Conversion de la requête
 app.use(express.json());
 
-// Routes de l'API
+// gestion de la ressource images de manière statique
 app.use(`/image`, express.static(path.join(__dirname, 'image')));
+// enregistrement des routeurs sauce et utilisateur 
+// pour n'importe quelle requête effectuée vers /api/sauces et /api/auth
 app.use(`/api/sauces`, sauceRoute);
 app.use(`/api/auth`, userRoute);
 

@@ -1,10 +1,15 @@
-const http = require("http");
+// SERVEUR DE L'APPLICATION
+
+// importation du module http et du fichier app
+
+const https = require("https");
 const app = require("./app");
-
-const dotenv =require('dotenv');
-dotenv.config();
 // Utilisation de dotenv
+const dotenv = require("dotenv");
+dotenv.config();
 
+//renvoie un port valide, qu'il soit fourni sous la forme d'un numéro 
+//  ou d'une chaîne
 const normalizePort = (val) => {
   const port = parseInt(val, 10);
 
@@ -16,9 +21,10 @@ const normalizePort = (val) => {
   }
   return false;
 };
-const port = normalizePort(process.env.PORT|| "3000");
+const port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
-
+// recherche des erreurs et gestion de manière appropiriée,
+//  puis enregistrement sur le serveur
 const errorHandler = (error) => {
   if (error.syscall !== "listen") {
     throw error;
@@ -39,9 +45,12 @@ const errorHandler = (error) => {
       throw error;
   }
 };
-
+// utilisation de Express dans le server Node
 const server = http.createServer(app);
 
+//enregistrement d'un écouteur d'évènements, 
+// consignant le port ou le canal nommé sur lequel le serveur
+//  s'exécute dans la console
 server.on("error", errorHandler);
 server.on("listening", () => {
   const address = server.address();

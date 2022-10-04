@@ -1,12 +1,12 @@
 // importation bcrypt pour hasher passeword
 const bcrypt = require("bcrypt");
-
+// importation des packages  jwt, email-validator
 const jwt = require("jsonwebtoken");
 const emailValidator = require("email-validator");
 
-// Import du modèle User
+// Importation du modèle User
 const User = require(`../models/user`);
-
+// importation dotenv
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -28,6 +28,7 @@ exports.signup = (req, res, next) => {
     })
     .catch((error) => res.status(500).json({ error }));
 };
+// exportation de la fonction qui va connecter un utilisateur déjà enregistré
 exports.login = (req, res, next) => {
   User.findOne({ email: req.body.email })
     .then((user) => {

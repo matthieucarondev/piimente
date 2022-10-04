@@ -1,6 +1,8 @@
+// importation du modèle sauce
 const Sauce = require(`../models/Sauce`);
+// importation des packages fs
 const fs = require("fs");
-
+/******************exportation de la fonction qui va créer une sauce (gère la route POST)***********************/
 exports.createSauce = (req, res, next) => {
   const sauceObject = JSON.parse(req.body.sauce);
   delete sauceObject._id;
@@ -24,7 +26,7 @@ exports.createSauce = (req, res, next) => {
       });
     });
 };
-
+/************** exportation de la fonction qui va récupérer une seule sauce (gère la route GET)*************************/
 exports.getOneSauce = (req, res, next) => {
   Sauce.findOne({
     _id: req.params.id,
@@ -32,10 +34,7 @@ exports.getOneSauce = (req, res, next) => {
     .then((sauce) => res.status(200).json(sauce))
     .catch((error) => res.status(404).json({ error }));
 };
-//Met à jour la sauce avec l'_id fourni. Si une image est téléchargée, elle est capturée et l’imageUrl de la sauce est mise à jour.
-//Si aucun fichier n'est fourni,les informations sur la sauce se trouvent directement dans le corps de la requête (req.body.name,
-//req.body.heat, etc.).
-//Si un fichier est fourni, la sauce transformée en chaîne de caractères se trouve dans req.body.sauce
+/***************** exportation de la fonction qui va modifier une sauce (gère la route PUT)************************/
 exports.modifySauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then(sauce => {
@@ -72,7 +71,7 @@ exports.modifySauce = (req, res, next) => {
 };
   
 
-
+/******************exportation de la fonction qui va supprimer une sauce (gère la route DELETE)*************************/
 exports.deleteSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
@@ -93,7 +92,7 @@ exports.deleteSauce = (req, res, next) => {
       res.status(500).json({ error });
     });
 };
-
+/*****************exportation de la fonction qui va récupérer toutes les sauces (gère la route GET)******************/
 exports.getAllSauce = (req, res, next) => {
   Sauce.find()
     .then((sauces) => {
@@ -105,6 +104,7 @@ exports.getAllSauce = (req, res, next) => {
       });
     });
 };
+/************************exportation de la fonction qui va gérer les likes et les dislikes******************************/
 exports.evaluateSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
