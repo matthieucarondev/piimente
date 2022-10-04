@@ -46,7 +46,7 @@ const errorHandler = (error) => {
   }
 };
 // utilisation de Express dans le server Node
-const server = http.createServer(app);
+const server = https.createServer(app);
 
 //enregistrement d'un écouteur d'évènements, 
 // consignant le port ou le canal nommé sur lequel le serveur
