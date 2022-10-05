@@ -35,11 +35,19 @@ exports.getOneSauce = (req, res, next) => {
     .catch((error) => res.status(404).json({ error }));
 };
 /***************** exportation de la fonction qui va modifier une sauce (gère la route PUT)************************/
-exports.modifySauce = (req, res, next) => {
-  Sauce.findOne({ _id: req.params.id })
-    .then(sauce => {
+exports.modifySauce = (req, res, next) => { 
+    const sauceObject = req.file
+    ? {
+        ...JSON.parse(req.body.sauce),
+        imageUrl: `${req.protocol}://${req.get("host")}/image/${
+          req.file.filename
+        }`,
+      }
+    : { ...req.body };
 
-      if (!sauce) {
+  Sauce.findOne({ _id: req.params.id })
+    .then((sauce) => {
+       if (!sauce) {
         res.status(404).json({ error: new Error('Object inexistant !') });
         return
       }
@@ -47,36 +55,34 @@ exports.modifySauce = (req, res, next) => {
         res.status(401).json({ error: new Error('Requête non autorisé !') });
         return
       }
-      const filename = sauce.imageUrl.split('/image')[1];
-      fs.unlink(`image/${filename}`, sauce=> {
-      const sauceObject = req.file ? {
-        ...JSON.parse(req.body.sauce),
-        imageUrl: `${req.protocol}://${req.get('host')}/image/${req.file.filename}`
-    } : { ...req.body };
-
-    delete sauceObject.userId;
-    Sauce.findOne({ _id: req.params.id })
-        .then(sauce => {
-            if (sauce.userId != req.auth.userId) {
-                res.status(401).json({ message: 'Non autorisé' });
-            } else {
-                Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
-                    .then((modifySauce) => res.status(200).json({ modifySauce, message: "Sauce modifiée !" }))
-                    .catch(error => res.status(400).json({ error }));
-            }
-        })
-        .catch(error => res.status(404).json({ error }));
-           });
-    });
+      if (req.file) {
+        const filename = sauce.imageUrl.split("/image/")[1];
+        fs.unlink(`image/${filename}`, () => {
+          Sauce.updateOne(
+            { _id: req.params.id },
+            { ...sauceObject, _id: req.params.id }
+          )
+            .then(() => res.status(200).json({ message: "Objet modifié !" }))
+            .catch((error) => res.status(400).json({ error }));
+        });
+      } else {
+        Sauce.updateOne(
+          { _id: req.params.id },
+          { ...sauceObject, _id: req.params.id }
+        )
+          .then(() => res.status(200).json({ message: "Objet modifié !" }))
+          .catch((error) => res.status(400).json({ error }));
+      }
+    })
+    .catch((error) => res.status(500).json({ error }));
 };
-  
 
 /******************exportation de la fonction qui va supprimer une sauce (gère la route DELETE)*************************/
 exports.deleteSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
       if (sauce.userId != req.auth.userId) {
-        res.status(401).json({ message: "Not authorized" });
+        res.status(401).json({ message: "Requête non autorisé !" });
       } else {
         const filename = sauce.imageUrl.split("/image/")[1];
         fs.unlink(`image/${filename}`, () => {

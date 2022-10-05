@@ -2,7 +2,7 @@
 
 // importation du module http et du fichier app
 
-const https = require("https");
+const http = require("http");
 const app = require("./app");
 // Utilisation de dotenv
 const dotenv = require("dotenv");
@@ -46,7 +46,7 @@ const errorHandler = (error) => {
   }
 };
 // utilisation de Express dans le server Node
-const server = https.createServer(app);
+const server = http.createServer(app);
 
 //enregistrement d'un écouteur d'évènements, 
 // consignant le port ou le canal nommé sur lequel le serveur
